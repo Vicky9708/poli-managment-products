@@ -5,6 +5,7 @@ import { ProductService } from './application/product.service';
 import { ProductMongooseRepository } from './infrastructure/persistence/product-mongoose.repository';
 import { PRODUCT_REPOSITORY } from './domain/product.repository.port';
 import { ProductDocument, ProductSchema } from './infrastructure/persistence/product.schema';
+import { ProductResolver } from './infrastructure/graphql/product.resolver';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ProductDocument, ProductSchema } from './infrastructure/persistence/pro
   controllers: [ProductController],
   providers: [
     ProductService,
+    ProductResolver,
     { provide: PRODUCT_REPOSITORY, useClass: ProductMongooseRepository },
   ],
 })
