@@ -2,7 +2,6 @@ import { Controller, UseFilters, UsePipes, ValidationPipe } from '@nestjs/common
 import { GrpcMethod } from '@nestjs/microservices';
 import { ProductService } from '../../application/product.service';
 import { CreateProductDto } from '../../application/dto/create-product.dto';
-import { UpdateProductDto } from '../../application/dto/update-product.dto';
 import { Product } from '../../domain/product.entity';
 import { GrpcExceptionFilter } from '../../../common/filters/grpc-exception.filter';
 import { ProductByIdRequest } from './dto/product-by-id.request';
@@ -32,12 +31,7 @@ export class ProductGrpcController {
 
   @GrpcMethod('ProductService', 'Update')
   async update(data: UpdateProductRequest): Promise<Product> {
-    const { id, ...changes } = data;
-    const dto = new UpdateProductDto();
-    if (changes.name !== undefined) dto.name = changes.name;
-    if (changes.description !== undefined) dto.description = changes.description;
-    if (changes.price !== undefined) dto.price = changes.price;
-
+    const { id, ...dto } = data;
     return this.productService.update(id, dto);
   }
 

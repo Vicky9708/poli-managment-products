@@ -33,14 +33,14 @@ src/
    ```
    MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/<database>?retryWrites=true&w=majority
    PORT=3000
-   GRPC_URL=0.0.0.0:5000
+   GRPC_URL=0.0.0.0:50051
    ```
 3. Run in development mode:
    ```
    pnpm run start:dev
    ```
 4. Swagger UI: http://localhost:3000/api
-5. gRPC server: `localhost:5000`, contract at `src/product/infrastructure/grpc/proto/product.proto`
+5. gRPC server: `localhost:50051`, contract at `src/product/infrastructure/grpc/proto/product.proto`
 
 ## REST endpoints
 
@@ -58,7 +58,7 @@ Playground/schema at `POST http://localhost:3000/graphql`. Queries: `products`, 
 
 ## gRPC
 
-The app runs as a NestJS hybrid application: the same Nest instance serves HTTP (REST + GraphQL) on port 3000 and a gRPC microservice on port 5000 (`GRPC_URL`), both backed by the same `ProductService` and Mongo repository.
+The app runs as a NestJS hybrid application: the same Nest instance serves HTTP (REST + GraphQL) on port 3000 and a gRPC microservice on port 50051 (`GRPC_URL`), both backed by the same `ProductService` and Mongo repository.
 
 `ProductService` (package `product`), defined in `src/product/infrastructure/grpc/proto/product.proto`:
 
@@ -74,10 +74,10 @@ The app runs as a NestJS hybrid application: the same Nest instance serves HTTP 
 
 Errors are translated to standard gRPC status codes by `GrpcExceptionFilter`: `NOT_FOUND` for a missing product, `INVALID_ARGUMENT` for validation errors or a malformed id, `INTERNAL` for anything else.
 
-To test it with a gRPC client (Postman, `grpcurl`, BloomRPC, Evans, etc.), point it at `localhost:5000` and import `src/product/infrastructure/grpc/proto/product.proto`. Example with `grpcurl`:
+To test it with a gRPC client (Postman, `grpcurl`, BloomRPC, Evans, etc.), point it at `localhost:50051` and import `src/product/infrastructure/grpc/proto/product.proto`. Example with `grpcurl`:
 
 ```
 grpcurl -plaintext -import-path src/product/infrastructure/grpc/proto -proto product.proto \
   -d '{"name":"Mouse","description":"Wireless mouse","price":25.5}' \
-  localhost:5000 product.ProductService/Create
+  localhost:50051 product.ProductService/Create
 ```

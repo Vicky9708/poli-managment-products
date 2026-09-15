@@ -1,20 +1,8 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString, Min } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
+import { UpdateProductDto } from '../../../application/dto/update-product.dto';
 
-export class UpdateProductRequest {
+export class UpdateProductRequest extends UpdateProductDto {
   @IsString()
   @IsNotEmpty()
   id: string;
-
-  @IsString()
-  @IsOptional()
-  name?: string;
-
-  @IsString()
-  @IsOptional()
-  description?: string;
-
-  @IsNumber()
-  @IsOptional()
-  @Min(0)
-  price?: number;
 }
