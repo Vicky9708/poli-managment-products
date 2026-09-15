@@ -6,12 +6,13 @@ import { ProductMongooseRepository } from './infrastructure/persistence/product-
 import { PRODUCT_REPOSITORY } from './domain/product.repository.port';
 import { ProductDocument, ProductSchema } from './infrastructure/persistence/product.schema';
 import { ProductResolver } from './infrastructure/graphql/product.resolver';
+import { ProductGrpcController } from './infrastructure/grpc/product.grpc.controller';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: ProductDocument.name, schema: ProductSchema }]),
   ],
-  controllers: [ProductController],
+  controllers: [ProductController, ProductGrpcController],
   providers: [
     ProductService,
     ProductResolver,
